@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Prata med en AI</h1>
+
+Här kan du prata med en AI. Välj en AI-konfiguration från listan nedan och skriv in ditt meddelande i rutan. 
+Tryck på "Send" för att skicka meddelandet till AI:n. AI:n kommer att svara med ett meddelande som du kan läsa i chatten. 
+Notera att AI:n inte alltid svarar på ett meningsfullt sätt, och att det den säger inte nödvändigtvis är sant.
+
+<div id="inputWrapper">
+
+    <label for="aiConfig">Välj AI-konfiguration:</label>
+    <select id="aiConfig">
+        <option value="neutral">Neutral</option>
+        {% for config in system_configs %}
+            <option value="{{ config.id }}">{{ config.name }}</option>
+        {% endfor %}
+    </select>
+
+    <div id="chatBox">
+        <!-- Chat messages will be appended here -->
+    </div>
+
+    <textarea id="userInput" placeholder="Type your message..."></textarea>
+    <button onclick="submitQuestion()">Send</button>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

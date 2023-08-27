@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfigurera en AI</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block content %}
+    <h1>Konfigurera en AI</h1>
+    Här kan du konfigurera en AI. Välj en AI-modell och skriv in en systemprompt, och modifiera vid behov temperatur och top p. 
+    Tryck på "Save Configuration" för att spara konfigurationen. Du kan sedan använda den i chatten för att få AIn att bete sig på ett visst sätt.
+    
+    <form action="/configure" method="post" id="configForm">
+        <label>
+            Preset Name:
+            <input type="text" name="preset_name" required>
+        </label>
+        <label>
+            Choose AI Model:
+            <select name="ai_model">
+                <option value="gpt3.5">GPT-3.5</option>
+                <option value="gpt4">GPT-4</option>
+            </select>
+        </label>
+        <label>
+            System Prompt:
+            <textarea name="system_prompt" placeholder="Enter system prompt"></textarea>
+        </label>
+        <label>
+            Temperature:
+            <input type="range" name="temperature" min="0" max="1" step="0.01" value="0.7" oninput="updateValue(this, 'tempValue')" title="Adjust the randomness of the AI's responses. Lower values make the output more deterministic, while higher values make it more random.">
+            <span id="tempValue">0.7</span>
+        </label>
+        <label>
+            Top P:
+            <input type="range" name="top_p" min="0" max="1" step="0.01" value="0.7" oninput="updateValue(this, 'topPValue')" title="Adjust the nucleus sampling. Controls the diversity of the AI's responses. Lower values can make the output more focused and higher values can increase diversity.">
+            <span id="topPValue">0.7</span>
+        </label>        
+        <button type="submit">Save Configuration</button>
+    </form>
+    
+    <h2>Saved Presets</h2>
+    <ul id="savedPresets">
+        <!-- Populate with saved presets. For example: -->
+        {% for preset in presets %}
+            <li>{{ preset.name }}</li>
+        {% endfor %}
+    </ul>
+    {% endblock %}
+    
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
