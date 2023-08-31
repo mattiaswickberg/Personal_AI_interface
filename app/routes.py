@@ -131,3 +131,31 @@ def configure():
 
     presets = ConfigurationPreset.query.all()
     return render_template('configure.html', presets=presets)
+
+@app.route('/configure/<int:preset_id>/edit', methods=['GET', 'POST'])
+def edit_configure(preset_id):
+    preset = ConfigurationPreset.query.get(preset_id)
+    if not preset:
+        return "Preset not found!", 404
+
+    if request.method == 'POST':
+        preset.name = request.form.get('preset_name')
+        preset.ai_model = request.form.get('ai_model')
+        preset.system_prompt = request.form.get('system_prompt')
+        preset.temperature = request.form.get('temperature')
+        preset.top_p = request.form.get('top_p')
+        
+        db.session.commit()
+        return redirect(url_for('configure'))
+
+    return render_template('edit_configure.html', preset=preset)
+
+@app.route('/configure/<int:preset_id>/delete', methods=['POST'])
+def delete_configure(preset_id):
+    preset = ConfigurationPreset.query.get(preset_id)
+    if not preset:
+        return jsonify({"message": "Preset not found!"}), 404
+
+    db.session.delete(preset)
+    db.session.commit()
+    return redirect(url_for('configure'))
