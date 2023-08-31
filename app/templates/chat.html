@@ -27,8 +27,12 @@ Notera att AI:n inte alltid svarar på ett meningsfullt sätt, och att det den s
 
 </div>
 
+
 {% endblock %}
 
 {% block scripts %}
+<script>    
+    var reminder = {{ reminder|tojson|safe }};
+</script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

@@ -3,7 +3,7 @@ from app.database.models import User, ChatHistory, Summary, ConfigurationPreset
 from flask_login import login_required, current_user
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_login import login_user
-from app.utilities import ask_gpt3, summarize_with_gpt3
+from app.utilities import ask_gpt3, summarize_with_gpt3, generate_reminder_from_summary
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -16,8 +16,15 @@ def index():
 @app.route('/chat')
 @login_required
 def chat():
-    system_configs = ConfigurationPreset.query.all()
-    return render_template('chat.html', system_configs=system_configs)
+    # Fetch the latest summary for the user
+    last_summary = Summary.query.filter_by(user_id=current_user.id).order_by(Summary.timestamp.desc()).first()
+
+    reminder_message = None
+    if last_summary:
+        # If there's a summary, generate a reminder message
+        reminder_message = generate_reminder_from_summary(last_summary.summary)
+        
+    return render_template('chat.html', reminder=reminder_message)
 
 @app.route('/ask', methods=['POST'])
 def ask():
@@ -173,3 +180,4 @@ def end_session():
     db.session.commit()
 
     return jsonify({"success": True, "summary": summary_text})
+

@@ -26,7 +26,7 @@ def ask_gpt3(chat_history, model="gpt-3.5-turbo", system_message=None, temperatu
     response = openai.ChatCompletion.create(**payload)
     return response.choices[0].message.content.strip()
 
-def summarize_with_gpt3(chat_history, model="gpt-3.5-turbo", system_message="Summarize the following conversation:", temperature=0.7, top_p=0.9):
+def summarize_with_gpt3(chat_history, model="gpt-3.5-turbo", system_message="Skapa en sammanfattning av den här texten:", temperature=0.7, top_p=0.9):
     """
     Gets a summary of a given chat history using OpenAI.
     """
@@ -39,3 +39,15 @@ def summarize_with_gpt3(chat_history, model="gpt-3.5-turbo", system_message="Sum
     return response
 
 
+def generate_reminder_from_summary(summary, model="gpt-3.5-turbo", system_message="Based on this summary of a previous session, remind the user what you last spoke about and ask about it.", temperature=0.7, top_p=0.9):
+    """
+    Uses the provided summary to generate a reminder message for the user.
+    """
+    messages = [
+        {"role": "system", "content": system_message},
+        {"role": "user", "content": summary}
+    ]
+    
+    response = ask_gpt3(messages, model, None, temperature, top_p)
+    
+    return response
