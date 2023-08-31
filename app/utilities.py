@@ -2,7 +2,7 @@ import openai, os
 
 openai.api_key = os.environ.get('OPEN_AI_KEY')
 
-def ask_gpt3(chat_history, system_message=None, temperature=None, top_p=None):
+def ask_gpt3(chat_history, model="gpt-3.5-turbo", system_message=None, temperature=None, top_p=None):
     messages = []
     
     # If there's a system message, prepend it to the list
@@ -13,7 +13,7 @@ def ask_gpt3(chat_history, system_message=None, temperature=None, top_p=None):
     messages.extend(chat_history)
     
     payload = {
-        "model": "gpt-3.5-turbo",  # Or make the model dynamic based on config
+        "model": model,  # Or make the model dynamic based on config
         "messages": messages,
         "max_tokens": 1500
     }

@@ -25,7 +25,7 @@ def ask():
     chat_history = data.get('chatHistory', [])
     config_id = data.get('configId')
     
-    system_message, temperature, top_p = None, None, None
+    system_message, temperature, top_p, model_name = None, None, None, "gpt-3.5-turbo"
     
     # If a configuration ID is provided, fetch the configuration from the database
     if config_id:
@@ -34,8 +34,9 @@ def ask():
             system_message = chosen_config.system_prompt
             temperature = chosen_config.temperature
             top_p = chosen_config.top_p
+            model_name = chosen_config.ai_model
     
-    response = ask_gpt3(chat_history, system_message=system_message, temperature=temperature, top_p=top_p)
+    response = ask_gpt3(chat_history, model=model_name, system_message=system_message, temperature=temperature, top_p=top_p)
     
     return jsonify({'response': response})
 
