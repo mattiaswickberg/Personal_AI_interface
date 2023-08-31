@@ -1,9 +1,9 @@
 from app import app, db, login_manager  # Importing login_manager
 from app.database.models import User, ChatHistory, Summary, ConfigurationPreset
 from flask_login import login_required, current_user
-from flask import render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_login import login_user
-from app.utilities import ask_gpt3
+from app.utilities import ask_gpt3, summarize_with_gpt3
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -159,3 +159,17 @@ def delete_configure(preset_id):
     db.session.delete(preset)
     db.session.commit()
     return redirect(url_for('configure'))
+
+@app.route('/end_session', methods=['POST'])
+def end_session():
+    chat_history = request.json.get('chatHistory')
+
+    # Generate summary
+    summary_text = summarize_with_gpt3(chat_history)
+
+    # Save the summary to the database
+    new_summary = Summary(user_id=current_user.id, summary=summary_text)
+    db.session.add(new_summary)
+    db.session.commit()
+
+    return jsonify({"success": True, "summary": summary_text})
