@@ -33,6 +33,7 @@ Notera att AI:n inte alltid svarar på ett meningsfullt sätt, och att det den s
 {% block scripts %}
 <script>    
     var reminder = {{ reminder|tojson|safe }};
+    var currentUsername = "{{ username }}";  // Pass the username to JavaScript
 </script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

@@ -16,6 +16,9 @@ def index():
 @app.route('/chat')
 @login_required
 def chat():
+    # Fetch all the configurations
+    system_configs = ConfigurationPreset.query.all()
+    
     # Fetch the latest summary for the user
     last_summary = Summary.query.filter_by(user_id=current_user.id).order_by(Summary.timestamp.desc()).first()
 
@@ -24,7 +27,8 @@ def chat():
         # If there's a summary, generate a reminder message
         reminder_message = generate_reminder_from_summary(last_summary.summary)
         
-    return render_template('chat.html', reminder=reminder_message)
+    return render_template('chat.html', system_configs=system_configs, reminder=reminder_message, username=current_user.username)
+
 
 @app.route('/ask', methods=['POST'])
 def ask():

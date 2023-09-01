@@ -2,7 +2,9 @@ let chatHistory = [];
 
 function submitQuestion() {
         let userInput = document.getElementById("userInput").value;
-        let chosenConfigId = document.getElementById("aiConfig").value;
+        let chosenConfig = document.getElementById("aiConfig");
+        let chosenConfigName = chosenConfig.options[chosenConfig.selectedIndex].text;
+
         chatHistory.push({role: "user", content: userInput});  // add user's message to history
         
         fetch('/ask', {
@@ -12,14 +14,15 @@ function submitQuestion() {
             },
             body: JSON.stringify({
                 'chatHistory': chatHistory,
-                'configId': chosenConfigId
+                'configId': chosenConfig.value
             }),
         })
         .then(response => response.json())
         .then(data => {
             let chatBox = document.getElementById("chatBox");
-            chatBox.innerHTML += "<div><b>You:</b> " + userInput + "</div>";
-            chatBox.innerHTML += "<div><b>AI:</b> " + data.response + "</div>";
+            chatBox.innerHTML += "<div class='chat-message'><b>" + currentUsername + ":</b> " + userInput + "</div>";
+            chatBox.innerHTML += "<div class='chat-message'><b>" + chosenConfigName + ":</b> " + data.response + "</div>";
+    
             
             chatHistory.push({role: "assistant", content: data.response});  // add AI's response to history
         });
