@@ -4,8 +4,15 @@ This is a simple interface for an AI chat bot, with the option of saving configu
 
 I'm not a developer! This is crude, simple and no security measures have been taken with this so far. 
 
+Functionality: 
+- Create and save configurations to be used in chat. Name, System prompt, temperature and top_p available for config.
+- Automatically saves a summary upon clicking end session
+- Looks at last summary when loading page and starts session by asking about last one. 
+
 To be added: 
 - Add configuration to chat history
-- Add automatic summary of chat sessions.
-- Add behaviour: Refer back to previous session upon starting a new session.
-- Add support for otehr AI models.
+- Add support for other AI models.
+- Add possible behaviours on startup to configuration
+- Add global configurations available to all accounts
+- Fix aesthetics
+- Add markdown support
