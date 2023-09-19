@@ -10,12 +10,13 @@ Notera att AI:n inte alltid svarar på ett meningsfullt sätt, och att det den s
 <div id="inputWrapper">
 
     <label for="aiConfig">Välj AI-konfiguration:</label>
-    <select id="aiConfig">
-        <option value="neutral">Neutral</option>
+    <div id="configButtons">
+        <button class="config-btn" onclick="selectConfig('neutral', 'Neutral')">Neutral</button>
         {% for config in system_configs %}
-            <option value="{{ config.id }}">{{ config.name }}</option>
+            <button class="config-btn" onclick="selectConfig('{{ config.id }}', '{{ config.name }}')">{{ config.name }}</button>
         {% endfor %}
-    </select>
+    </div>
+    
 
     <div id="chatBox">
         <!-- Chat messages will be appended here -->

@@ -146,6 +146,11 @@ textarea[name="system_prompt"] {
     height: 200px; /* Adjust this to your desired height */
 }
 
+textarea[name="temp_instructions"] {
+    width: 100%;  /* Adjust this to your desired width */
+    height: 200px; /* Adjust this to your desired height */
+}
+
 input[type="range"] {
     width: 100%;
     margin: 10px 0;
@@ -208,4 +213,24 @@ input[type="range"]::-ms-track {
 
 .logout-button:hover {
     background-color: #da190b;  /* Darker red on hover */
+}
+
+.config-btn {
+    margin: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    border: none;
+    background-color: #f4f4f4;
+    color: #222;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.config-btn:hover {
+    background-color: #ddd;
+}
+
+.active-config {
+    background-color: #007BFF;  // You can change this color as per your design preference
+    color: white;
 }

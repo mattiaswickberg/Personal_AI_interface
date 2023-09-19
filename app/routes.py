@@ -1,5 +1,5 @@
 from app import app, db, login_manager, bcrypt
-from app.database.models import User, ChatHistory, Summary, ConfigurationPreset
+from app.database.models import User, Role, ChatHistory, Summary, ConfigurationPreset
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from app.utilities import ask_gpt3, summarize_with_gpt3, generate_reminder_from_summary
@@ -63,7 +63,10 @@ def ask():
             temperature = chosen_config.temperature
             top_p = chosen_config.top_p
             model_name = chosen_config.ai_model
-    
+            temp_instruction = chosen_config.temp_instructions
+    if temp_instruction:
+        system_message = (system_message if system_message else "") + " " + temp_instruction
+
     response = ask_gpt3(chat_history, model=model_name, system_message=system_message, temperature=temperature, top_p=top_p)
     
     return jsonify({'response': response})
@@ -83,22 +86,29 @@ def load():
 @login_required
 @requires_role('admin')
 def register():
-        if request.method == 'POST':
-         # Register a new user
-            username = request.form.get('username')
-            password = request.form.get('password')
-            hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
+    roles = Role.query.all()  # Fetch all available roles for dropdown
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        selected_role = request.form.get('role')  # Get the selected role
 
-    # Check if user already exists
-            user = User.query.filter_by(username=username).first()
-            if user:
-                return jsonify({"message": "User already exists!"}), 400
+        hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
 
-            new_user = User(username=username, hashedpw=password)
-            db.session.add(new_user)
-            db.session.commit()
+        # Check if user already exists
+        user = User.query.filter_by(username=username).first()
+        if user:
+            return jsonify({"message": "User already exists!"}), 400
 
-        return render_template('register.html')
+        role = Role.query.filter_by(name=selected_role).first()  # Find the role in the DB
+
+        new_user = User(username=username, password=hashed_pw, role=role)  # Assign role to user
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect(url_for('index'))
+
+    return render_template('register.html', roles=roles)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -153,16 +163,20 @@ def configure():
         system_prompt = request.form.get('system_prompt')
         temperature = request.form.get('temperature')
         top_p = request.form.get('top_p')
-
+        description = request.form.get('description')
+        temp_instructions = request.form.get('temp_instructions')
         
         preset = ConfigurationPreset(
             name=preset_name,
             ai_model=ai_model,
             system_prompt=system_prompt,
             temperature=temperature,
-            top_p=top_p
+            top_p=top_p,
+            description=description,
+            temp_instructions=temp_instructions
         )
-        
+        print(preset_name, ai_model, system_prompt, temperature, top_p, description, temp_instructions)
+
         db.session.add(preset)
         db.session.commit()
 
@@ -181,6 +195,8 @@ def edit_configure(preset_id):
         preset.system_prompt = request.form.get('system_prompt')
         preset.temperature = request.form.get('temperature')
         preset.top_p = request.form.get('top_p')
+        preset.description = request.form.get('description')
+        preset.temp_instructions = request.form.get('temp_instructions')    
         
         db.session.commit()
         return redirect(url_for('configure'))

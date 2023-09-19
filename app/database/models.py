@@ -10,6 +10,8 @@ class ConfigurationPreset(db.Model):
     system_prompt = db.Column(db.String(500), nullable=True)
     temperature = db.Column(db.Float, nullable=False)
     top_p = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String(500), nullable=True)
+    temp_instructions = db.Column(db.String(500), nullable=True)
 
 class UserConfiguration(db.Model):
     id = db.Column(db.Integer, primary_key=True)
