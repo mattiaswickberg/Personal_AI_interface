@@ -7,6 +7,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config.from_object('config')  # Assuming you have basic configurations in config.py
+app.config['LOGIN_VIEW'] = 'login'
 
 db = SQLAlchemy(app)
 
