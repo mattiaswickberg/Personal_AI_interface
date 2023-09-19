@@ -16,8 +16,16 @@
         </select>
     </label>
     <label>
+        Description:
+        <textarea name="description" placeholder="Enter description">{{ preset.description }}</textarea>
+    </label>
+    <label>
         System Prompt:
         <textarea name="system_prompt" placeholder="Enter system prompt">{{ preset.system_prompt }}</textarea>
+    </label>
+    <label>
+        Temporary Information:
+        <textarea name="temp_instructions" placeholder="Enter temporary instructions">{{ preset.temp_instructions }}</textarea>
     </label>
     <label>
         Temperature:
