@@ -230,8 +230,8 @@ input[type="range"]::-ms-track {
     background-color: #ddd;
 }
 
-.active-config {
-    background-color: #007BFF;  // You can change this color as per your design preference
+.config-btn:active, .active-config {
+    background-color: #096c22;
     color: white;
 }
 
