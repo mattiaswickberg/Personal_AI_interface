@@ -38,5 +38,7 @@ Notera att AI:n inte alltid svarar på ett meningsfullt sätt, och att det den s
     var reminder = {{ reminder|tojson|safe }};
     var currentUsername = "{{ username }}";  // Pass the username to JavaScript
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@2.0.0/marked.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

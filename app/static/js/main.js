@@ -22,7 +22,7 @@ function selectConfig(configId, configName) {
 function submitQuestion() {
     let userInput = document.getElementById("userInput").value;
 
-    chatHistory.push({role: "user", content: userInput});  // add user's message to history
+    chatHistory.push({role: "user", content: userInput});
     
     fetch('/ask', {
         method: 'POST',
@@ -31,20 +31,28 @@ function submitQuestion() {
         },
         body: JSON.stringify({
             'chatHistory': chatHistory,
-            'configId': currentConfigId // use the global variable
+            'configId': currentConfigId
         }),
     })
     .then(response => response.json())
     .then(data => {
         let chatBox = document.getElementById("chatBox");
-        chatBox.innerHTML += "<div class='chat-message'><b>" + currentUsername + ":</b> " + userInput + "</div>";
-        chatBox.innerHTML += "<div class='chat-message'><b>" + currentConfigName + ":</b> " + data.response + "</div>";
 
-        chatHistory.push({role: "assistant", content: data.response});  // add AI's response to history
+        // Render user input as plain text
+        chatBox.innerHTML += "<div class='chat-message'><b>" + currentUsername + ":</b> " + userInput + "</div>";
+
+        // Render AI's response with markdown support
+        let aiResponse = marked(data.response);  // Convert Markdown to HTML
+        aiResponse = DOMPurify.sanitize(aiResponse);  // Sanitize the HTML
+
+        chatBox.innerHTML += "<div class='chat-message'><b>" + currentConfigName + ":</b> " + aiResponse + "</div>";
+
+        chatHistory.push({role: "assistant", content: data.response});
     });
 
-    document.getElementById("userInput").value = ""; // Clear the input field
+    document.getElementById("userInput").value = "";
 }
+
 
 function updateValue(slider, outputId) {
         document.getElementById(outputId).textContent = slider.value;
