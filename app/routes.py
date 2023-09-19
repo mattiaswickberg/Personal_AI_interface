@@ -1,9 +1,26 @@
-from app import app, db, login_manager  # Importing login_manager
+from app import app, db, login_manager, bcrypt
 from app.database.models import User, ChatHistory, Summary, ConfigurationPreset
-from flask_login import login_required, current_user
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from app.utilities import ask_gpt3, summarize_with_gpt3, generate_reminder_from_summary
+
+from functools import wraps
+
+def requires_role(required_role):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            if not current_user.is_authenticated:
+                return jsonify({"message": "Unauthorized"}), 403
+
+            # Assumes the User model has a 'role' attribute that provides access to the role name.
+            if current_user.role.name != required_role:
+                return jsonify({"message": "Unauthorized"}), 403
+
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -64,39 +81,40 @@ def load():
 
 @app.route('/register', methods=['GET', 'POST'])
 @login_required
+@requires_role('admin')
 def register():
         if request.method == 'POST':
          # Register a new user
             username = request.form.get('username')
             password = request.form.get('password')
+            hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
 
     # Check if user already exists
             user = User.query.filter_by(username=username).first()
             if user:
                 return jsonify({"message": "User already exists!"}), 400
 
-            new_user = User(username=username, password=password)
+            new_user = User(username=username, hashedpw=password)
             db.session.add(new_user)
             db.session.commit()
 
-#            if form.validate_on_submit():
-            # save new user to the database
-#                return redirect(url_for('login'))
         return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-
         username = request.form.get('username')
         password = request.form.get('password')
 
         user = User.query.filter_by(username=username).first()
-        if not user or user.password != password:  # Check password here
+
+        # Using Bcrypt's `check_password_hash` to compare the entered password with the stored hash.
+        if not user or not bcrypt.check_password_hash(user.password, password):
             return jsonify({"message": "Invalid credentials!"}), 401
 
         # If user exists and password matches
         login_user(user)  # This logs in the user and starts their session
+
         return redirect(url_for('index'))  # Redirect them wherever you want after login
 
     return render_template('login.html')
@@ -126,6 +144,8 @@ def full_ask():
     return jsonify({"answer": answer}), 200
 
 @app.route('/configure', methods=['GET', 'POST'])
+@requires_role('admin')
+@login_required
 def configure():
     if request.method == 'POST':
         preset_name = request.form.get('preset_name')

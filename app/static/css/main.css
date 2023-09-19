@@ -2,51 +2,50 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f3ebf6, #f7f7f7); /* subtle gradient background */
+    background-color: #181818; /* Dark background color */
+    color: #eaeaea; /* Light foreground text color */
 }
 
 .container {
     max-width: 960px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #282828; /* Slightly lighter than body background for contrast */
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* subtle shadow to give depth */
 }
 
 nav {
-    background-color: #e3d7f4; /* light purple */
+    background-color: #222; /* Dark gray background */
     padding: 15px 0;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* subtle shadow for nav */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Darker shadow for contrast */
 }
 
 nav a {
     margin: 0 15px;
     text-decoration: none;
-    color: #5e4b7c; /* Darker purple for contrast */
+    color: #ccc; /* Lighter color for links */
     transition: color 0.3s ease;
 }
 
 nav a:hover {
-    color: #3a2850; /* Even darker purple on hover */
+    color: #fff; /* Pure white on hover for more contrast */
 }
 
 footer {
-    background-color: #e3d7f4; /* light purple */
+    background-color: #222; /* Dark gray background for footer */
     padding: 10px 0;
     text-align: center;
     margin-top: 30px;
     font-size: 0.9em;
-    color: white;
 }
 
 #chatBox {
     max-width: 800px;
     margin: 50px auto;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #444; /* Darker border for chatbox */
     padding: 20px;
-    background-color: #fff;
+    background-color: #282828; /* Same as .container for consistency */
     border-radius: 10px;
     overflow: auto;
     height: 200px;
@@ -57,8 +56,10 @@ footer {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #444;
     border-radius: 5px;
+    background-color: #222; /* Dark gray background for input elements */
+    color: #eaeaea; /* Light foreground text color for input */
 }
 
 #inputWrapper {
@@ -70,41 +71,29 @@ footer {
     gap: 10px;
 }
 
-#aiConfig {
-    flex: 1;
-    margin-right: 10px;
-}
-
 form {
     max-width: 600px;
     margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
+    padding: 30px 20px;
+    background-color: #282828; /* Consistent with other container elements */
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Slightly darker shadow for contrast */
 }
 
 form label {
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 25px;  /* Increased from 15px */
 }
 
-form input, form select, form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
-form textarea {
-    height: 100px;
-    resize: vertical;
+form label span, form label select, form label input, form label textarea {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
 }
 
 h2 {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 ul#savedPresets {
@@ -116,10 +105,10 @@ ul#savedPresets {
 
 ul#savedPresets li {
     padding: 10px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #444; /* Darker border for list items */
     margin-top: 10px;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: #282828; /* Consistent background for items */
     text-align: center;
 }
 
@@ -152,6 +141,10 @@ label {
     font-weight: bold;
 }
 
+textarea[name="system_prompt"] {
+    width: 100%;  /* Adjust this to your desired width */
+    height: 200px; /* Adjust this to your desired height */
+}
 
 input[type="range"] {
     width: 100%;

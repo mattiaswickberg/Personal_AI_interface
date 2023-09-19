@@ -15,7 +15,13 @@ class UserConfiguration(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     user_info = db.Column(db.String(500), nullable=True)
-    
+
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    users = db.relationship('User', back_populates='role')
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -26,7 +32,9 @@ class User(db.Model, UserMixin):
     # Relationship
     chat_histories = db.relationship('ChatHistory', backref='user', lazy=True)
     summaries = db.relationship('Summary', backref='user', lazy=True)
-    
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=True)  # Making it nullable initially to handle existing users
+    role = db.relationship('Role', back_populates='users')
+
 class ChatHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
