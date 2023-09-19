@@ -11,9 +11,11 @@ Notera att AI:n inte alltid svarar på ett meningsfullt sätt, och att det den s
 
     <label for="aiConfig">Välj AI-konfiguration:</label>
     <div id="configButtons">
-        <button class="config-btn" onclick="selectConfig('neutral', 'Neutral')">Neutral</button>
         {% for config in system_configs %}
-            <button class="config-btn" onclick="selectConfig('{{ config.id }}', '{{ config.name }}')">{{ config.name }}</button>
+            <div class="tooltip">
+                <button class="config-btn" onclick="selectConfig('{{ config.id }}', '{{ config.name }}')">{{ config.name }}</button>
+                <span class="tooltiptext">{{ config.description }}</span>
+            </div>
         {% endfor %}
     </div>
     
