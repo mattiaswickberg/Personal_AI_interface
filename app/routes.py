@@ -2,7 +2,7 @@ from app import app, db, login_manager  # Importing login_manager
 from app.database.models import User, ChatHistory, Summary, ConfigurationPreset
 from flask_login import login_required, current_user
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from flask_login import login_user
+from flask_login import login_user, login_required, logout_user
 from app.utilities import ask_gpt3, summarize_with_gpt3, generate_reminder_from_summary
 
 @login_manager.user_loader
@@ -63,6 +63,7 @@ def load():
     return jsonify({"message": "Load endpoint"})
 
 @app.route('/register', methods=['GET', 'POST'])
+@login_required
 def register():
         if request.method == 'POST':
          # Register a new user
@@ -100,6 +101,11 @@ def login():
 
     return render_template('login.html')
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 @app.route('/full_ask', methods=['POST'])
 def full_ask():
