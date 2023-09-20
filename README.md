@@ -4,7 +4,7 @@ This is a simple interface for an AI chat bot, with the option of saving configu
 
 If you do try this, note that the account registration is only available when logged in as admin, so you need to add the first admin account directly to the database. 
 
-I'm not a developer! This is crude, simple and no security measures have been taken with this so far. 
+I'm not a developer! This is crude, simple and only very basic security measures have been taken with this so far. 
 
 Functionality: 
 - Create and save configurations to be used in chat. Name, System prompt, temperature and top_p available for config.
