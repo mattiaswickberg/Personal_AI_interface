@@ -9,11 +9,9 @@ Functionality:
 - Also added configuration desciption, and temporary information fields. My idea for the latter is that one can add for instance what is happening that week, so that the AI can ask about it.
 - Automatically saves a summary upon clicking end session
 - Looks at last summary when loading page and starts session by asking about last one.
+- Add markdown support
 
 To be added: 
 - Add configuration to chat history
-- Add support for other AI models.
-- Add possible behaviours on startup to configuration
-- Add global configurations available to all accounts
-- Fix aesthetics
-- Add markdown support
+- Add support for other language models.
+- Add profileration of configurations admin -> teacher -> student
