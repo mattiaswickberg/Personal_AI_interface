@@ -16,6 +16,33 @@ function selectConfig(configId, configName) {
     if (selectedBtn) {
         selectedBtn.classList.add("active-config");
     }
+
+    // Update URL to reflect the current configuration without triggering a page reload
+    window.history.pushState(null, null, `/chat?config_id=${configId}`);
+
+    // Send an initial query with the chosen configuration
+    fetch('/ask', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            'chatHistory': [],
+            'configId': currentConfigId
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        let chatBox = document.getElementById("chatBox");
+        
+        // Render AI's response with markdown support
+        let aiResponse = marked(data.response);  // Convert Markdown to HTML
+        aiResponse = DOMPurify.sanitize(aiResponse);  // Sanitize the HTML
+        
+        chatBox.innerHTML += "<div class='chat-message'><b>" + currentConfigName + ":</b> " + aiResponse + "</div>";
+
+        chatHistory.push({role: "assistant", content: data.response});
+    });
 }
 
 
@@ -96,4 +123,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     
+    window.addEventListener('popstate', function(event) {
+        // Extract configId from the current URL
+        let urlSegments = window.location.pathname.split('/');
+        let configIdFromURL = urlSegments[urlSegments.length - 1];
+    
+        // If the extracted configId is different from currentConfigId, then call selectConfig
+        if (configIdFromURL !== currentConfigId) {
+            selectConfig(configIdFromURL, configIdFromURL.charAt(0).toUpperCase() + configIdFromURL.slice(1));
+        }
+    });
     

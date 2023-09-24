@@ -43,9 +43,11 @@ class ChatHistory(db.Model):
     message = db.Column(db.Text, nullable=False)
     is_user = db.Column(db.Boolean, default=True)  # Default is True assuming most entries would be user messages
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    config_id = db.Column(db.Integer, db.ForeignKey('configuration_preset.id'), nullable=False)
 
 class Summary(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     summary = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    config_id = db.Column(db.Integer, db.ForeignKey('configuration_preset.id'), nullable=False)

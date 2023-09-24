@@ -22,8 +22,7 @@
 
 
     {% if current_user.is_authenticated %}
-        <a href="{{ url_for('chat') }}">Chat</a>
-        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a> 
+    <a href="{{ url_for('chat', config_id=currentConfigId or 1) }}">Chat</a>        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a> 
     {% else %}
         <a href="{{ url_for('login') }}">Login</a>
     {% endif %}

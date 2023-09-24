@@ -30,21 +30,26 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
-@app.route('/chat')
+@app.route('/chat/<int:config_id>', methods=['GET'])
 @login_required
-def chat():
+def chat(config_id=None):
     # Fetch all the configurations
     system_configs = ConfigurationPreset.query.all()
-    
-    # Fetch the latest summary for the user
-    last_summary = Summary.query.filter_by(user_id=current_user.id).order_by(Summary.timestamp.desc()).first()
+
+    if config_id:
+        # Fetch the latest summary for the user based on config_id
+        last_summary = Summary.query.filter_by(user_id=current_user.id, config_id=config_id).order_by(Summary.timestamp.desc()).first()
+    else:
+        # Fetch the latest summary for the user without considering config_id
+        last_summary = Summary.query.filter_by(user_id=current_user.id).order_by(Summary.timestamp.desc()).first()
 
     reminder_message = None
     if last_summary:
         # If there's a summary, generate a reminder message
         reminder_message = generate_reminder_from_summary(last_summary.summary)
-        
+
     return render_template('chat.html', system_configs=system_configs, reminder=reminder_message, username=current_user.username)
+
 
 
 @app.route('/ask', methods=['POST'])
@@ -69,6 +74,11 @@ def ask():
 
     response = ask_gpt3(chat_history, model=model_name, system_message=system_message, temperature=temperature, top_p=top_p)
     
+    # Save chat history with config reference
+    new_message = ChatHistory(user_id=current_user.id, message=response, is_user=False, config_id=config_id)
+    db.session.add(new_message)
+    db.session.commit()
+
     return jsonify({'response': response})
 
 
