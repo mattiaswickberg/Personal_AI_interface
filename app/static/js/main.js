@@ -87,31 +87,34 @@ function updateValue(slider, outputId) {
     }
 
 document.getElementById('endSessionBtn').addEventListener('click', async function() {
-        // Collecting chat history
-        const chatHistoryElements = document.querySelectorAll('.chat-message');
-        let chatHistoryText = '';
-        
-        chatHistoryElements.forEach(el => {
-            chatHistoryText += el.textContent + '\n';
-        });
-
-        // Sending chat history to the server for a summary
-        const response = await fetch('/end_session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({chatHistory: chatHistoryText})
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            alert('Session ended and summary saved!');
-        } else {
-            alert('Error ending session. Please try again.');
-        }
+    // Collecting chat history
+    const chatHistoryElements = document.querySelectorAll('.chat-message');
+    let chatHistoryText = '';
+    
+    chatHistoryElements.forEach(el => {
+        chatHistoryText += el.textContent + '\n';
     });
+
+    // Sending chat history to the server for a summary
+    const response = await fetch('/end_session', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            chatHistory: chatHistoryText,
+            configId: currentConfigId  // Including configId here
+        })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+        alert('Session ended and summary saved!');
+    } else {
+        alert('Error ending session. Please try again.');
+    }
+});
 
 function displayReminder(reminder) {
         let chatBox = document.getElementById("chatBox");

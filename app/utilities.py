@@ -11,7 +11,7 @@ def ask_gpt3(chat_history, model="gpt-3.5-turbo", temperature=None, top_p=None, 
     
     # Extend with the chat history
     messages.extend(chat_history)
-    print(f"This is the message {messages}")
+    #print(f"This is the message {messages}")
 
     payload = {
         "model": model,  # Or make the model dynamic based on config
@@ -33,13 +33,13 @@ def summarize_with_gpt3(chat_history, model="gpt-3.5-turbo", system_message="Ova
     """
     # Convert the chat history text into a list of messages
     messages_list = [{"role": "user", "content": message} for message in chat_history.split("\n") if message]
-    print(f"This is the messages list sent {messages_list}")
+    #print(f"This is the messages list sent {messages_list}")
     
     messages_list.append({"role": "user", "content": system_message})
 
     # Get a response from OpenAI
     response = ask_gpt3(messages_list, model, temperature, top_p)
-    print(f"This is the response from OpenAI {response}")
+    #print(f"This is the response from OpenAI {response}")
     
     return response
 

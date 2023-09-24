@@ -38,7 +38,9 @@ def chat(config_id=None):
 
     if config_id:
         # Fetch the latest summary for the user based on config_id
+        print("Fetching summary")
         last_summary = Summary.query.filter_by(user_id=current_user.id, config_id=config_id).order_by(Summary.timestamp.desc()).first()
+        print(last_summary)
     else:
         # Fetch the latest summary for the user without considering config_id
         last_summary = Summary.query.filter_by(user_id=current_user.id).order_by(Summary.timestamp.desc()).first()
@@ -226,12 +228,13 @@ def delete_configure(preset_id):
 @app.route('/end_session', methods=['POST'])
 def end_session():
     chat_history = request.json.get('chatHistory')
+    config_id = request.json.get('configId')  # Assuming you're passing configId in the request.
 
     # Generate summary
     summary_text = summarize_with_gpt3(chat_history)
 
     # Save the summary to the database
-    new_summary = Summary(user_id=current_user.id, summary=summary_text)
+    new_summary = Summary(user_id=current_user.id, summary=summary_text, config_id=config_id)  # Add config_id here.
     db.session.add(new_summary)
     db.session.commit()
 
