@@ -42,15 +42,16 @@ footer {
 
 #chatBox {
     max-width: 800px;
+    max-height: 4000px;  /* Adjust this value as needed */
     margin: 50px auto;
     border: 1px solid #444; /* Darker border for chatbox */
     padding: 20px;
     background-color: #282828; /* Same as .container for consistency */
     border-radius: 10px;
     overflow: auto;
-    height: 200px;
     width: 100%;
 }
+
 
 #userInput, #aiConfig {
     width: 100%;
@@ -261,3 +262,4 @@ input[type="range"]::-ms-track {
     visibility: visible;
     opacity: 1;
 }
+

@@ -73,6 +73,7 @@ function submitQuestion() {
         aiResponse = DOMPurify.sanitize(aiResponse);  // Sanitize the HTML
 
         chatBox.innerHTML += "<div class='chat-message'><b>" + currentConfigName + ":</b> " + aiResponse + "</div>";
+        scrollToBottom();
 
         chatHistory.push({role: "assistant", content: data.response});
     });
@@ -133,4 +134,9 @@ document.addEventListener("DOMContentLoaded", function() {
             selectConfig(configIdFromURL, configIdFromURL.charAt(0).toUpperCase() + configIdFromURL.slice(1));
         }
     });
+    
+    function scrollToBottom() {
+        var chatBox = document.getElementById("chatBox");
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
     
