@@ -12,8 +12,8 @@ Functionality:
 - Automatically saves a summary upon clicking end session
 - Looks at last summary when loading page and starts session by asking about last one.
 - Add markdown support
+- Add configuration to chat history
+- Add profileration of configurations admin -> teacher -> student
 
 To be added: 
-- Add configuration to chat history
 - Add support for other language models.
-- Add profileration of configurations admin -> teacher -> student
