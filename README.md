@@ -17,3 +17,6 @@ Functionality:
 To be added: 
 - Add support for other language models.
 - (BROKEN)Look at last summary when loading page and starts session by asking about last one.
+
+## Installation
+If you, despite this being a hack by a non-professional, would like to try this, the requirements are in the requirements.txt. You'll need to set up a database, and create a .env file with OPEN_AI_KEY, SECRET_KEY (for password encryption), and DATABASE_URL. Also, atm the register account is only available when logged in as admin, so the first account (with encrypted password) needs to be added straight to the database.
