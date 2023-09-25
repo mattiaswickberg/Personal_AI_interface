@@ -10,10 +10,10 @@ Functionality:
 - Create and save configurations to be used in chat. Name, System prompt, temperature and top_p available for config.
 - Also added configuration desciption, and temporary information fields. My idea for the latter is that one can add for instance what is happening that week, so that the AI can ask about it.
 - Automatically saves a summary upon clicking end session
-- Looks at last summary when loading page and starts session by asking about last one.
 - Add markdown support
 - Add configuration to chat history
 - Add profileration of configurations admin -> teacher -> student
 
 To be added: 
 - Add support for other language models.
+- (BROKEN)Look at last summary when loading page and starts session by asking about last one.
