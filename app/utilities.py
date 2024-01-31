@@ -2,7 +2,7 @@ import openai, os
 
 openai.api_key = os.environ.get('OPEN_AI_KEY')
 
-def ask_gpt3(chat_history, model="gpt-3.5-turbo", temperature=None, top_p=None, system_message=None):
+def ask_gpt3(chat_history, model="gpt-4", temperature=None, top_p=None, system_message=None):
     messages = []
     
     # If there's a system message, prepend it to the list
@@ -44,7 +44,7 @@ def summarize_with_gpt3(chat_history, model="gpt-3.5-turbo", system_message="Ova
     return response
 
 
-def generate_reminder_from_summary(summary, model="gpt-3.5-turbo", system_message="Based on this summary of a previous session, remind the user what you last spoke about and ask about it.", temperature=0.7, top_p=0.9):
+def generate_reminder_from_summary(summary, model="gpt-4", system_message="Based on this summary of a previous session, remind the user what you last spoke about and ask about it.", temperature=0.7, top_p=0.9):
     """
     Uses the provided summary to generate a reminder message for the user.
     """

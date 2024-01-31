@@ -40,7 +40,7 @@ function selectConfig(configId, configName) {
         aiResponse = DOMPurify.sanitize(aiResponse);  // Sanitize the HTML
         
         chatBox.innerHTML += "<div class='chat-message'><b>" + currentConfigName + ":</b> " + aiResponse + "</div>";
-
+        scrollToBottom();
         chatHistory.push({role: "assistant", content: data.response});
     });
 }
@@ -74,7 +74,6 @@ function submitQuestion() {
 
         chatBox.innerHTML += "<div class='chat-message'><b>" + currentConfigName + ":</b> " + aiResponse + "</div>";
         scrollToBottom();
-
         chatHistory.push({role: "assistant", content: data.response});
     });
 

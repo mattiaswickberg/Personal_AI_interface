@@ -24,9 +24,12 @@ Notera att AI:n inte alltid svarar på ett meningsfullt sätt, och att det den s
         <!-- Chat messages will be appended here -->
     </div>
 
-    <textarea id="userInput" placeholder="Type your message..."></textarea>
-    <button onclick="submitQuestion()">Send</button>
+    <div id="messageInputWrapper">
+        <textarea id="userInput" placeholder="Type your message..."></textarea>
+        <button onclick="submitQuestion()" class="sendBtn">Send</button>
+    </div>
     <button id="endSessionBtn">End Session</button>
+    
 
 </div>
 

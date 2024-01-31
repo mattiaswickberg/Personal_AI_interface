@@ -53,7 +53,7 @@ footer {
 }
 
 
-#userInput, #aiConfig {
+#aiConfig {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
@@ -123,6 +123,47 @@ button {
     transition: background-color 0.3s;
     width: 100%;
     margin-top: 10px;
+}
+#messageInputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#userInput {
+    flex-grow: 1;
+    width: 600px;
+    height: 100px;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #222; /* Adjust if needed */
+    color: #eaeaea; /* Adjust if needed */
+    resize: both; /* Allows the textarea to be resized vertically */
+}
+
+.sendBtn {
+    width: 100px;
+    padding: 5px 10px;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sendBtn:hover {
+    background-color: #45a049;
+}
+
+#endSessionBtn {
+    width: 100px;
+    display: block;
+    margin-top: 10px;
+    background-color: #35136c;
+    /* Other styling as needed */
 }
 
 button:hover {
